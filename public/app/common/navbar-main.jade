@@ -1,0 +1,16 @@
+section.top-bar-section
+  ul.left(ng-controller="dirNavBarMainCntrl")
+    li
+      a(href='/') Home
+    li(ng-show="identity.isAuthenticated()")
+      a(href="/consultants") Employee List
+    li(ng-show="identity.isAuthenticated()")
+      a(ng-href="/consultants/{{identity.currentUser.emailNickname}}") My Profile
+    li(ng-show="identity.isAuthenticated() && ( identity.isManager() || identity.isInRole('Recruiting') )")
+      a(ng-href="/skills") Skills
+    li(ng-show="identity.isAuthenticated() && ( identity.isManager() || identity.isInRole('Recruiting') )")
+      a(ng-href="/verticals") Verticals
+    li(ng-show="identity.isAuthenticated() && identity.isManager()")
+      a(ng-href="/reports") Reports
+    li
+      a(href='/releaseNotes') Release Notes

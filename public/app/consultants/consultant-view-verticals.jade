@@ -1,0 +1,19 @@
+div#tab-verticals.content(ng-class="{'active': tab == 'tab-verticals'}" class="verticals-tab")
+  fieldset(ng-show="!isEditor()")
+    legend Acclaimed Verticals
+    ul(ng-repeat="vertical in consultant.verticals | orderBy:'name'")
+      li.selected-vertical {{vertical.name}}
+  fieldset(ng-show="isEditor()")
+    legend Available Verticals
+    div.panel.callout.radius.clearfix
+      input(placeholder="Search" ng-model="search")
+    ul(ng-repeat="vertical in $parent.verticals | verticalSearch:search | orderBy:'name'" class="")
+      li(ng-class="{'selected': highlightVertical(vertical._id)}" ng-click="updateVertical(vertical, $event)" )
+        i.general.foundicon-checkmark()
+        label(for="{{vertical.name}}") {{vertical.name}}
+        input(
+	      type="checkbox"
+	      name="{{vertical.name}}" 
+	      id="{{vertical.name}}" 
+	      ng-checked="verticalChecked(vertical._id)"
+	      style="display: none;")          

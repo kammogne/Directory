@@ -1,0 +1,75 @@
+fieldset
+  legend Search Options
+  .medium-3.small-12.columns
+    label Filter To Office:
+    select(ng-model="selectedOffice", ng-options="office for office in offices")
+      option(value="") All Offices
+  .medium-3.small-12.columns
+    label Filter To Skill:
+    select(ng-model="selectedSkill", ng-options="skill for skill in skills | orderBy:'toString()'")
+      option(value="") All Skills
+  .medium-3.small-12.columns
+    label Filter To Vertical:
+    select(ng-model="selectedVertical", ng-options="vertical for vertical in verticals | orderBy:'toString()'")
+      option(value="") All Verticals
+  .medium-3.small-12.columns
+    label Search:
+    .row.collapse
+      .small-11.columns
+        input(type="text", ng-model="search")
+      .small-1.columns
+        a.button.postfix(href="#", ng-click="search = '';") X
+
+.container.show-for-small-only
+  p(style="font-size: large; text-align: center;"){{filtered.length}} Matching Record<span ng-if="filtered.length != 1">s</span>
+  .small-12.columns
+  .panel.radius(ng-repeat="consultant in consultants | nameSearch:search | filter:consultantFilter | orderBy:orderPredicate:reverse")
+    span.right {{ consultant.enterprise }}
+    a(href="/consultants/{{ consultant.emailNickname }}")
+      h2 {{ consultant.firstName}} {{ consultant.lastName }}
+    .row
+      .small-4.columns   
+        label Manager
+        p {{ consultant.manager.name }}
+      .small-8.columns
+        label Skills
+        span(ng-show='!consultant.skills || consultant.skills.length === 0') No skills selected
+        span(ng-repeat="skill in consultant.skills | orderBy: 'name'") {{skill.name}}{{{true: '', false: ', '}[$last]}}
+    .row
+      .small-4.columns
+        div(ng-show='!!consultant.ad.mobilePhone')
+          label Mobile
+          a(ng-href='tel:{{consultant.ad.mobilePhone.replace("(","").replace(")","").replace("-","").replace(" ","").replace(".","") }}') {{ consultant.ad.mobilePhone }}
+      .small-8.columns
+        label Verticals
+        span(ng-show='!consultant.verticals || consultant.verticals.length === 0') No verticals selected
+        span(ng-repeat="vertical in consultant.verticals | orderBy: 'name'") {{vertical.name}}{{{true: '', false: ', '}[$last]}}
+.container.show-for-medium-up
+  table.small-12.columns
+    thead
+      tr
+        th(colspan="7", style="font-size: large") {{filtered.length}} Matching Record<span ng-if="filtered.length != 1">s</span>
+      tr
+        th
+          a(href='', ng-click="orderPredicate = 'firstName'; reverse=!reverse") First Name
+        th
+          a(href='', ng-click="orderPredicate = 'lastName'; reverse=!reverse") Last Name
+        th
+          a(href='', ng-click="orderPredicate = 'manager.name'; reverse=!reverse") Manager
+        th Mobile
+        th
+          a(href='', ng-click="orderPredicate = 'enterprise'; reverse=!reverse") Enterprise
+    tbody
+      tr(ng-repeat="consultant in filtered = (consultants | nameSearch:search | filter:consultantFilter | orderBy:orderPredicate:reverse)")
+        td
+          a(href="/consultants/{{ consultant.emailNickname }}") {{ consultant.firstName}}
+        td
+          a(href="/consultants/{{ consultant.emailNickname }}") {{ consultant.lastName }}
+        td
+          a(href="/consultants/{{ consultant.manager.emailNickname }}") {{ consultant.manager.name }}
+        td(nowrap="nowrap")
+          span(ng-show='!!consultant.ad.mobilePhone')
+            a(ng-href='tel:{{consultant.ad.mobilePhone.replace("(","").replace(")","").replace("-","").replace(" ","").replace(".","") }}') {{ consultant.ad.mobilePhone }}
+          span(ng-hide='!!consultant.ad.mobilePhone')
+            i -
+        td {{ consultant.enterprise }}

@@ -1,0 +1,18 @@
+h2 CVT Counts by Quarter/Enterprise
+
+div(ng-repeat="x in cvtCountsByQuarterAndEnterprise | orderBy:['-year','-quarter']")
+  .row
+    .small-12.columns
+      b {{x.year}} Q{{x.quarter}}
+  .row
+    .small-2.columns &nbsp;
+    .small-2.columns.end(ng-repeat="c in x.counts | orderBy:'enterprise'", style="text-align: center;")
+      div
+        i {{c.enterprise}}
+      div {{c.count}}
+      div Avg: {{(c.avgSumOfCurrent || 'NaN') | number:0}}
+      div(ng-show="!!c.total")
+        | {{c.percentage*100 | number:0}}% &nbsp;
+        span(style="white-space: nowrap;")
+          | (of {{c.total}})
+  .row &nbsp;

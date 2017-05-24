@@ -1,0 +1,22 @@
+extends ../includes/layout
+
+block main-content
+  nav.top-bar(data-topbar)
+    ul.title-area
+      li.toggle-topbar.menu-icon
+        a(href="#")
+          span Menu
+      li.name
+        h1.navbar-brand(href='/')
+          a(href="#") Directory
+    section.top-bar-section
+      div(ng-include="'/partials/common/navbar-main'")
+      div(ng-include="'/partials/account/navbar-login'")
+
+
+
+  section
+    div.row(ng-view)
+
+  footer.container.text-center
+    p &copy; 2014-2016 Improving Enterprises, LLC

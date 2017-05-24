@@ -1,0 +1,16 @@
+h2 Release Notes
+div(ng-repeat="version in notes | orderBy:versionNumber")
+  h3 {{ version.versionNumber }}
+  h4(ng-hide="version.features.length === 0") Features
+  ul
+    li(ng-repeat="feature in version.features") {{ feature.description }}
+      ul.pipe-delim
+        li(ng-repeat="author in feature.developerGitHub")
+          a(ng-href="http://github.com/{{author}}", target="_blank"){{ author }}
+  h4(ng-hide="version.bugFixes.length === 0") Bug Fixes
+  ul
+    li(ng-repeat="fix in version.bugFixes") {{ fix.description }}
+      ul.pipe-delim
+        li(ng-repeat="author in fix.developerGitHub")
+          a(ng-href="http://github.com/{{author}}", target="_blank"){{ author }}
+  hr

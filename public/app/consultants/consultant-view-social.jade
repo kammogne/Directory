@@ -1,0 +1,70 @@
+div
+  div(ng-show="!isEditor()")
+    .xlarge-text
+      a(href="http://twitter.com/{{consultant.socialMedia.twitter}}", target="_blank", ng-show="!!consultant.socialMedia.twitter")
+        i.foundicon-twitter.social &nbsp;
+      a(href="http://github.com/{{consultant.socialMedia.github}}", target="_blank", ng-show="!!consultant.socialMedia.github")
+        i.foundicon-github.social &nbsp;
+      a(href="http://linkedin.com/in/{{consultant.socialMedia.linkedin}}", target="_blank", ng-show="!!consultant.socialMedia.linkedin")
+        i.foundicon-linkedin.social &nbsp;
+      a(href="http://facebook.com/{{consultant.socialMedia.facebook}}", target="_blank", ng-show="!!consultant.socialMedia.facebook")
+        i.foundicon-facebook.social &nbsp;
+      a(href="skype:{{consultant.socialMedia.skype}}?chat", ng-show="!!consultant.socialMedia.skype")
+        i.foundicon-skype.social &nbsp;
+      a(href="http://instagram.com/{{consultant.socialMedia.instagram}}", target="_blank", ng-show="!!consultant.socialMedia.instagram")
+        i.foundicon-instagram.social &nbsp;
+      a(href="{{consultant.socialMedia.blogUrl}}", target="_blank", ng-show="!!consultant.socialMedia.blogUrl")
+        i.foundicon-rss.social &nbsp;
+  div(ng-show="isEditor()")
+    .row
+      .small-12.medium-4.columns
+        label
+          a(href="http://twitter.com/{{consultant.socialMedia.twitter}}", target="_blank", ng-show="!!consultant.socialMedia.twitter")
+            i.foundicon-twitter.social &nbsp;
+          | Twitter
+        input(type="text", ng-model="consultant.socialMedia.twitter", placeholder="username")
+
+      .small-12.medium-4.columns
+        label
+          a(href="http://github.com/{{consultant.socialMedia.github}}", target="_blank", ng-show="!!consultant.socialMedia.github")
+            i.foundicon-github.social &nbsp;
+          | GitHub
+        input(type="text", ng-model="consultant.socialMedia.github", placeholder="username")
+
+      .small-12.medium-4.columns
+        label
+          a(href="http://linkedin.com/in/{{consultant.socialMedia.linkedin}}", target="_blank", ng-show="!!consultant.socialMedia.linkedin")
+            i.foundicon-linkedin.social &nbsp;
+          | LinkedIn
+        input(type="text", ng-disabled="!isEditor()", ng-model="consultant.socialMedia.linkedin", placeholder="username")
+
+    .row
+      .small-12.medium-4.columns
+        label
+          a(href="http://facebook.com/{{consultant.socialMedia.facebook}}", target="_blank", ng-show="!!consultant.socialMedia.facebook")
+            i.foundicon-facebook.social &nbsp;
+          | Facebook
+        input(type="text", ng-model="consultant.socialMedia.facebook", placeholder="username")
+
+      .small-12.medium-4.columns
+        label
+          a(href="skype:{{consultant.socialMedia.skype}}?chat", ng-show="!!consultant.socialMedia.skype")
+            i.foundicon-skype.social(ng-show="!!consultant.socialMedia.skype") &nbsp;
+          | Skype
+        input(type="text", ng-model="consultant.socialMedia.skype", placeholder="Skype ID")
+
+      .small-12.medium-4.columns
+        label
+          a(href="http://instagram.com/{{consultant.socialMedia.instagram}}", target="_blank", ng-show="!!consultant.socialMedia.instagram")
+            i.foundicon-instagram.social &nbsp;
+          | Instagram
+        input(type="text", placeholder="username", ng-model="consultant.socialMedia.instagram")
+
+    .row
+      .small-12.columns
+        label
+          a(href="{{consultant.socialMedia.blogUrl}}", target="_blank", ng-show="!!consultant.socialMedia.blogUrl")
+            i.foundicon-rss.social &nbsp;
+          | Blog
+        input(type="url", name="blogUrl", ng-model="consultant.socialMedia.blogUrl", ng-class="{error: myForm.blogUrl.$invalid}", placeholder="http://www.myblog.com")
+        small.error(ng-show="myForm.blogUrl.$error.url") This must be a full URL, starting with HTTP or HTTPS.

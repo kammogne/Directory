@@ -1,0 +1,37 @@
+div
+  h2 Skills
+  
+  fieldset
+    legend Available Skills
+    p Unlisted skills can be added at the bottom of the page.
+    div.panel.callout.radius.clearfix
+      div.large-6.columns
+        div.row.collapse
+          div.small-9.columns
+           input(type="text" placeholder="Search" ng-model="search")
+
+    
+
+    #skills.row
+      .small-3.columns(ng-repeat="skill in skills | skillSearch:search | orderBy: 'name'")
+        .skill.panel.radius.callout
+          button.left.alert.radius.tiny.clearfix(ng-click="delete(skill)")
+            i.foundicon-remove.general
+          b {{ skill.name }}
+          p {{ skill.description }}
+          
+
+
+  fieldset
+    legend Add a Skill
+    form
+      a(id="add-skill")
+      .row
+        label Skill Name
+        input.small-6.columns(type=text, name="name", ng-model="newSkill.name")
+      .row
+        label Description
+        textarea.small-6.columns(name="description", ng-model="newSkill.description")
+      .row.clearfix
+        button.success.radius(ng-click="save()")
+          i.foundicon-plus.general

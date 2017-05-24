@@ -1,0 +1,8 @@
+section.top-bar-section
+  ul.right(ng-controller="dirNavBarLoginCntrl")
+    li(ng-hide="identity.isAuthenticated()")
+      a.round.success.button.right-10.show-for-medium-up(href="#", ng-click="login()") Login
+      a.show-for-small-only(href="#", ng-click="login()") Login
+    li(ng-show="identity.isAuthenticated()")
+      a.round.button.right-10.show-for-medium-up(href="#", ng-click="logout()") Logout
+      a.show-for-small-only(href="#", ng-click="logout()") Logout

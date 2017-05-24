@@ -1,0 +1,15 @@
+.row
+  .small-12.medium-6.columns
+    img(src="/images/ie-logo-small.jpg")
+  .small-12.medium-6.columns
+    .panel.radius.callout.jumbotron
+      h1 Employee Directory
+      p
+        | This site serves the primary contact directory for Improving Enterprises
+        | consultants, allowing them to manage their own contact information
+        | and serve as resource for other internal applications.
+.row(ng-repeat="newsItem in news")
+  .small-9.columns.panel.radius.warn.small-centered.text-center
+    b {{ newsItem.name }}
+    hr
+    span.top-10 {{ newsItem.description }}

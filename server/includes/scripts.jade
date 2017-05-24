@@ -1,0 +1,58 @@
+script(type="text/javascript", src="/vendor/jquery/dist/jquery.js")
+script(type="text/javascript", src="/vendor/toastr/toastr.js")
+script(type="text/javascript", src="/vendor/foundation/js/foundation/foundation.js")
+script(type="text/javascript", src="/vendor/foundation/js/foundation/foundation.topbar.js")
+script(type="text/javascript", src="/vendor/foundation/js/foundation/foundation.equalizer.js")
+script(type="text/javascript", src="/vendor/foundation/js/foundation/foundation.tab.js")
+script(type="text/javascript", src="/vendor/angular/angular.js")
+script(type="text/javascript", src="/vendor/angular-resource/angular-resource.js")
+script(type="text/javascript", src="/vendor/angular-route/angular-route.js")
+script(type="text/javascript", src="/vendor/angular-ui-utils/ui-utils.js")
+script(type="text/javascript", src="/vendor/angular-ui-utils/ui-utils-ieshiv.js")
+script(type="text/javascript", src="/vendor/angular-cache-buster/angular-cache-buster.js")
+
+// Angular
+script(type="text/javascript", src="/app/app.js")
+
+// Common
+script(type="text/javascript", src="/app/common/dirNotifier.js")
+script(type="text/javascript", src="/app/common/dirNavBarMainCntrl.js")
+
+// Resources
+script(type="text/javascript", src="/app/resources/dirConfig.js")
+script(type="text/javascript", src="/app/resources/dirNews.js")
+script(type="text/javascript", src="/app/resources/dirConsultants.js")
+script(type="text/javascript", src="/app/resources/dirUser.js")
+script(type="text/javascript", src="/app/resources/dirSkills.js")
+script(type="text/javascript", src="/app/resources/dirVerticals.js")
+script(type="text/javascript", src="/app/resources/dirReleaseNotes.js")
+
+// Main
+script(type="text/javascript", src="/app/main/dirMainCntrl.js")
+script(type="text/javascript", src="/app/main/dirReleaseNotesCntrl.js")
+
+// Admin
+script(type="text/javascript", src="/app/admin/dirUserListCntrl.js")
+
+// Consultants
+script(type="text/javascript", src="/app/consultants/dirConsultantListCntrl.js")
+script(type="text/javascript", src="/app/consultants/dirConsultantViewCntrl.js")
+
+// Account
+script(type="text/javascript", src="/app/account/dirNavBarLoginCntrl.js")
+script(type="text/javascript", src="/app/account/dirIdentity.js")
+
+// Skills
+script(type="text/javascript", src="/app/skills/dirSkillsAddCntrl.js")
+
+// Verticals
+script(type="text/javascript", src="/app/verticals/dirVerticalsAddCntrl.js")
+
+// Reports
+script(type="text/javascript", src="/app/reports/dirReportsCntrl.js")
+
+script.
+  $(document).foundation();
+  $(document).on("click", ".top-bar-section li", function () {
+    Foundation.libs.topbar.toggle($('.top-bar'));
+  });

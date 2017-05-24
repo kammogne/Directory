@@ -1,0 +1,8 @@
+h1 Reports
+
+dl.tabs.vertical(data-tab="")
+  dd.tab-title(ng-class="{'active': tab == 'tab-cvts'}")
+    a(ng-click="tab = 'tab-cvts'") CVTs
+
+.tabs-content.vertical
+  div#tab-cvts.content(ng-class="{'active': tab == 'tab-cvts'}", ng-include="'/partials/reports/cvts'")

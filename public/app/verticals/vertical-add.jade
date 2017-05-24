@@ -1,0 +1,35 @@
+div
+  h2 Verticals
+  
+  fieldset
+    legend Available Verticals
+    div.panel.callout.radius.clearfix
+      div.large-6.columns
+        div.row.collapse
+          div.small-9.columns
+           input(type="text" placeholder="Search" ng-model="search")
+
+    
+
+    #verticals.row
+      .small-3.columns(ng-repeat="vertical in verticals | verticalSearch:search | orderBy: 'name'")
+        .vertical.panel.radius.callout
+          button.left.alert.radius.tiny.clearfix(ng-click="delete(vertical)")
+            i.foundicon-remove.general
+          b {{ vertical.name }}
+          p {{ vertical.description }}
+          
+
+  fieldset
+    legend Add a Vertical
+    form
+      a(id="add-vertical")
+      .row
+        label Vertical Name
+        input.small-6.columns(type=text, name="name", ng-model="newVertical.name")
+      .row
+        label Description
+        textarea.small-6.columns(name="description", ng-model="newVertical.description")
+      .row.clearfix
+        button.success.radius(ng-click="save()")
+          i.foundicon-plus.general

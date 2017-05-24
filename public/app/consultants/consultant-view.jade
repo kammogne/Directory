@@ -1,0 +1,37 @@
+form(name="myForm", novalidate)
+  .panel.alert.round.small-12.columns.text-center(ng-show="!!consultant && !consultant.enabled")
+    | This account is disabled, this consultant likely no longer works for Improving Enterprises.
+  h1 {{ consultant.firstName }} {{ consultant.lastName }}
+
+  dl.tabs.vertical(data-tab="")
+    dd.tab-title(ng-class="{'active': tab == 'tab-ad'}")
+      a(ng-click="tab = 'tab-ad'") Active Directory
+    dd.tab-title(ng-class="{'active': tab == 'tab-social'}")
+      a(ng-click="tab = 'tab-social'") Social Media
+    dd.tab-title(ng-class="{'active': tab == 'tab-skills'}")
+      a(ng-click="tab = 'tab-skills'") Skills
+    dd.tab-title(ng-class="{'active': tab == 'tab-verticals'}")
+      a(ng-click="tab = 'tab-verticals'") Verticals
+    dd.tab-title(ng-show="identity.isManager()", ng-class="{'active': tab == 'tab-cvts'}")
+      a(ng-click="tab = 'tab-cvts'") CVTs
+    dd.tab-title(ng-show="isEditor()", ng-class="{'active': tab == 'tab-disclosure'}")
+      a(ng-click="tab = 'tab-disclosure'") Public Disclosure
+  .tabs-content.vertical
+    div#tab-ad.content(ng-class="{'active': tab == 'tab-ad'}", ng-include="'/partials/consultants/consultant-view-ad'")
+    div#tab-social.content(ng-class="{'active': tab == 'tab-social'}", ng-include="'/partials/consultants/consultant-view-social'")
+    div#tab-skills.content(ng-class="{'active': tab == 'tab-skills'}", ng-include="'/partials/consultants/consultant-view-skills'")
+    div#tab-verticals.content(ng-class="{'active': tab == 'tab-verticals'}", ng-include="'/partials/consultants/consultant-view-verticals'")
+    div#tab-cvts.content(ng-class="{'active': tab == 'tab-cvts'}", ng-include="'/partials/consultants/consultant-view-cvts'")
+    div#tab-disclosure.content(ng-class="{'active': tab == 'tab-disclosure'}")
+      .row
+        .small-3.columns
+          label Social Media
+          .switch.round.large
+            input#disclosureSocialMediaPublic(type="radio", name="disclosureSocialMedia", ng-model="consultant.publicDisclosure.socialMedia", ng-value="true")
+            label(for="disclosureSocialMediaPublic") Public
+            input#disclosureSocialMediaPrivate(type="radio", name="disclosureSocialMedia", ng-model="consultant.publicDisclosure.socialMedia", ng-value="false")
+            label(for="disclosureSocialMediaPrivate") Private
+  br(style="clear: both;")
+  .row(ng-show="isEditor()")
+    .small-12.medium-6.large-3.small-centered.columns
+      button.success.small-12(ng-click="save()", ng-disabled="myForm.$invalid") Save

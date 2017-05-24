@@ -1,0 +1,16 @@
+doctype
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Directory
+    link(rel="stylesheet", href="/vendor/foundation/css/normalize.css")
+    link(rel="stylesheet", href="/vendor/foundation/css/foundation.css")
+    link(rel="stylesheet", href="/vendor/toastr/toastr.css")
+    link(rel="stylesheet", href="/css/site.css")
+    link(rel="stylesheet", href="/css/social_foundicons.css")
+    script(type="text/javascript", src="/vendor/modernizr/modernizr.js")
+  body(ng-app='app')
+    include currentUser
+    block main-content
+    include scripts

@@ -1,0 +1,43 @@
+div#tab-cvts.content(ng-class="{'active': tab == 'tab-cvts'}" class="cvts-tab")
+  fieldset(ng-show="identity.isManager()")
+    legend Career Valuation Tools
+    div(ng-repeat="cvt in consultant.careerValuationTools | orderBy:'date'", tabindex="0")
+      a(ng-click="selectCvt(cvt)")
+        .data {{cvt.formattedDate}}
+  fieldset(ng-show="identity.isManager() && !!selectedCvt()")
+    legend Selected Career Valuation Tool
+    .row
+      .small-8.medium-5.large-3.columns
+        label Date
+        input(type="text", ng-model="selectedCvt().formattedDate", ng-disabled="!identity.isManager()", ng-required="!!selectedCvt()")
+    .row
+      .show-for-medium-up.medium-1.large-2.columns
+        | &nbsp;
+      .small-6.medium-5.large-3.columns
+        | &nbsp;
+      .small-3.medium-2.columns
+        label Ideal
+      .small-3.medium-2.end.columns
+        label Current
+    div(ng-repeat="category in selectedCvt().categories")
+      .row
+        .show-for-medium-up.medium-1.large-2.columns
+          | &nbsp;
+        .small-6.medium-5.large-3.columns
+          .data {{category.name}}
+        .small-3.medium-2.columns
+          input(type="text", ng-model="category.ideal")
+        .small-3.medium-2.end.columns
+          input(type="text", ng-model="category.current")
+    .row
+      .show-for-medium-up.medium-1.large-2.columns
+        | &nbsp;
+      .small-6.medium-5.large-3.columns
+        | &nbsp;
+      .small-3.medium-2.columns
+        .data {{ selectedCvt().totalIdeal }}
+      .small-3.medium-2.end.columns
+        .data {{ selectedCvt().totalCurrent }}
+  .row(ng-show="identity.isManager()")
+    .small-12.columns
+      button(type="button", ng-click="addCvt()") Add

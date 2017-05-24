@@ -1,0 +1,55 @@
+div
+  .row
+    .small-12.columns
+      label Email
+      .data
+        a(ng-href="mailto:{{consultant.email}}") {{consultant.email}}
+  .row
+    .small-12.medium-6.columns
+      label Email Nickname
+      .data
+        a(ng-href="/consultants/{{consultant.emailNickname}}") {{consultant.emailNickname}}
+    .small-12.medium-6.columns
+      label Manager
+      .data
+        a(ng-href="/consultants/{{consultant.manager.emailNickname}}") {{ consultant.manager.name }}
+  .row
+    .small-12.medium-4.columns
+      label Mobile Phone
+      input(type="text", ng-model="consultant.ad.mobilePhone", ng-disabled="!isEditor()")
+    .small-12.medium-4.columns
+      label Home Phone
+      input(type="text", ng-model="consultant.ad.homePhone", ng-disabled="!isEditor()")
+    .small-12.medium-4.columns
+      label Client Phone
+      input(type="text", ng-model="consultant.ad.clientPhone", ng-disabled="!isEditor()")
+
+    .small-12.columns
+      label Street Address
+      textarea(ng-model="consultant.ad.address", ng-disabled="!isEditor()")
+    .small-8.medium-6.columns
+      label City
+      input(type="text", ng-model="consultant.ad.city", ng-disabled="!isEditor()")
+    .small-4.medium-2.columns
+      label State
+      input(type="text", ng-model="consultant.ad.state", ng-disabled="!isEditor()")
+    .small-6.medium-4.columns
+      label Postal Code
+      input(type="text", ng-model="consultant.ad.postalCode", ng-disabled="!isEditor()")
+    .small-6.medium-12.columns
+      label Country
+      input(type="text", ng-model="consultant.ad.country", ng-disabled="!isEditor()")
+    .small-12.columns
+      label Roles ({{ consultant.roles.length }})
+      ul.pipe-delim
+        li(ng-repeat="role in consultant.roles | unique:true | stringSort") {{ role }}
+    .small-12.columns(ng-hide="!consultant.reports || consultant.reports.length == 0")
+      label Reports ({{ consultant.reports.length }})
+      ul.pipe-delim
+        li(ng-repeat="report in consultant.reports | orderBy:'firstName'")
+          a(ng-href="/consultants/{{report.emailNickname}}") {{ report.firstName }} {{ report.lastName }}
+
+  br
+  .row
+    .data.radius.small-12.medium-9.columns.small-centered.text-center
+      small Active Directory information can take up to an hour to sync with Office365
