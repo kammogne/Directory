@@ -8,7 +8,9 @@ section.top-bar-section
       a(ng-href="/consultants/{{identity.currentUser.emailNickname}}") My Profile
     li(ng-show="identity.isAuthenticated() && ( identity.isManager() || identity.isInRole('Recruiting') )")
       a(ng-href="/skills") Skills
-    li(ng-show="identity.isAuthenticated() && ( identity.isManager() || identity.isInRole('Recruiting') )")
+    li(ng-show="identity.isAuthenticated()")
+      a(ng-href="/requestskill") Request Skill
+    li(ng-show="identity.isAuthenticated()")
       a(ng-href="/verticals") Verticals
     li(ng-show="identity.isAuthenticated() && identity.isManager()")
       a(ng-href="/reports") Reports

@@ -37,6 +37,10 @@ angular.module('app', ['ngResource', 'ngRoute', 'ui.utils', 'ngCacheBuster'])
         templateUrl: '/partials/skills/skill-add',
         controller: 'dirSkillsAddCntrl'
       })
+      .when('/requestskill', {
+        templateUrl: '/partials/requestskill/skill-request',
+        controller: 'dirRequestSkillCntrl'
+        })
       .when('/verticals', {
         templateUrl: '/partials/verticals/vertical-add',
         controller: 'dirVerticalsAddCntrl'

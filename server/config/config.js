@@ -29,7 +29,7 @@ var environmentConfigs = {
     }
   },
   development:{
-    db: 'mongodb://ImprovingTech:fa748907-1135-4425-a9cd-118d903d499e@ds030827.mongolab.com:30827/Directory-Dev',
+    db: 'mongodb://localhost:27017/Directory-Dev',
     port: process.env.PORT || 3000,
     ad: {
       // These two keys are supported at port 3000 & 4000 currently

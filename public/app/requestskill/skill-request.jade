@@ -1,0 +1,47 @@
+div
+                        h2 Skills
+
+                        fieldset
+                            legend Available Skills
+                            p Unlisted skills can be added at the bottom of the page.
+                            div.panel.callout.radius.clearfix
+                                div.large-6.columns
+                                    div.row.collapse
+                                        div.small-9.columns
+                                            input(type="text" placeholder="Search" ng-model="search")
+
+
+
+                            #skills.row
+                                .small-3.columns(ng-repeat="skill in skills | skillSearch:search | orderBy: 'name'")
+                                    .skill.panel.radius.callout
+                                        button.left.alert.radius.tiny.clearfix(ng-click="delete(skill)")
+                                            i.foundicon-remove.general
+                                        b {{ skill.name }}
+                                        p {{ skill.description }}
+
+
+
+                        fieldset
+                            legend Request to Add a Skill
+                            form
+                                a(id="request-skill")
+                                .row
+                                    p
+                                        span
+                                        .row
+                                            .small-12.medium-8.columns
+                                                label Skill Name
+                                                input(type=text, name="name", ng-model="newSkill.name")
+                                            .small-12.medium-4.columns
+                                                label Skill Level
+                                                select(ng-model="skillLevel", ng-options="skillLevel for skillLevel in skillLevels")
+
+                                .row
+                                    label Description
+                                    textarea.small-6.columns(name="description", ng-model="newSkill.description")
+                                .row
+
+                                .row.clearfix
+                                    button.success.radius(ng-click="save()")
+                                        i.foundicon-plus.general
