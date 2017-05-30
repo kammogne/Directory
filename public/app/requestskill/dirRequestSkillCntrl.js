@@ -1,7 +1,8 @@
-angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirSkills, dirNotifier ) {
+angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirSkills, dirNotifier, dirIdentity ) {
 
     $scope.skills = dirSkills.query();
     $scope.newSkill = new dirSkills();
+    $scope.currentUser = dirIdentity.currentUser;
 
     function formattedName(x) {
         return x.id + ' ' + x.name;
