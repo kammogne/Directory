@@ -14,7 +14,14 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
             $scope.skillLevels = [];
     });
 
-    $scope.sendRequest = function () {
+    $scope.save = function () {
        //TODO: Landry implement the send request including sending email address to the managers for approval.
+        $scope.newSkill.$save(function () {
+            dirNotifier.notify( 'Skill has successfully been requested.');
+            $scope.skills = dirSkills.query();
+            $scope.newSkill = new dirSkills();
+        }, function () {
+            dirNotifier.error( 'There was an error, try again later.' );
+        });
     };
 });

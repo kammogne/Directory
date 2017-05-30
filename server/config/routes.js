@@ -5,7 +5,7 @@ consultantsCntrl = require( '../controllers/consultantsCntrl' ),
 locationsCntrl = require('../controllers/locationsCntrl'),
 adCntrl = require( '../controllers/adCntrl' ),
 skillsCntrl = require( '../controllers/skillsCntrl'),
-requestSkillsCntrl = require( '../controllers/requestSkillsCntrl'),
+requestSkillCntrl = require( '../controllers/requestSkillCntrl'),
 skillLevelsCntrl = require( '../controllers/skillLevelsCntrl'),
 verticalsCntrl = require( '../controllers/verticalsCntrl'),
 newsCntrl = require( '../controllers/newsCntrl'),
@@ -30,7 +30,8 @@ module.exports = function ( app, config ) {
 
   app.get( '/api/locations', auth.requiresApiLogin, locationsCntrl.getAll );
 
-  app.get( '/api/requestSkill', auth.requiresApiLogin, requestSkillsCntrl.getAll );
+  app.get( '/api/requestSkill', auth.requiresApiLogin, requestSkillCntrl.getAll );
+  app.post( '/api/requestSkill/:id', auth.requiresApiLogin, requestSkillCntrl.post);
 
   app.get( '/api/skillLevels', auth.requiresApiLogin, skillLevelsCntrl.getAll );
 

@@ -36,10 +36,17 @@ div
                                             .small-12.medium-4.columns
                                                 label Skill Level
                                                 select(ng-model="skillLevel", ng-options="skillLevel for skillLevel in skillLevels")
-
                                 .row
-                                    label Description
-                                    textarea.small-6.columns(name="description", ng-model="newSkill.description")
+
+                                    p
+                                        span
+                                        .row
+                                            .small-12.medium-8.columns
+                                                label Description
+                                                textarea(name="description", ng-model="newSkill.description")
+                                            .small-12.medium-4.columns
+                                                input(type="checkbox", name="IsUserSkill", ng-model="newSkill.IsUserSkill")
+                                                label.checkbox-inline Add this skill to my profile
                                 .row
 
                                 .row.clearfix
