@@ -13,7 +13,7 @@ div
 
 
                             #skills.row
-                                .small-3.columns(ng-repeat="skill in skills | skillSearch:search | orderBy: 'name'")
+                                .small-3.columns(ng-repeat="skill in skills | skillSearch:search | filter:{ isApproved: true} | orderBy: 'name'")
                                     .skill.panel.radius.callout
                                         button.left.alert.radius.tiny.clearfix(ng-click="delete(skill)")
                                             i.foundicon-remove.general
@@ -32,7 +32,7 @@ div
                                         .row
                                             .small-12.medium-8.columns
                                                 label Skill Name
-                                                input(type=text, name="name", ng-model="newSkill.name")
+                                                input(type=text, name="name", ng-model="skillRequested.name")
                                             .small-12.medium-4.columns
                                                 label Skill Level
                                                 select(ng-model="skillLevel", ng-options="skillLevel for skillLevel in skillLevels")
@@ -43,9 +43,9 @@ div
                                         .row
                                             .small-12.medium-8.columns
                                                 label Description
-                                                textarea(name="description", ng-model="newSkill.description")
+                                                textarea(name="description", ng-model="skillRequested.description")
                                             .small-12.medium-4.columns
-                                                input(type="checkbox", name="IsUserSkill", ng-model="newSkill.IsUserSkill")
+                                                input(type="checkbox", name="IsUserSkill", ng-model="skillRequested.IsSkillApplyToUser")
                                                 label.checkbox-inline Add this skill to my profile
                                 .row
 

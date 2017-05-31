@@ -1,7 +1,7 @@
-angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirSkills, dirNotifier, dirIdentity ) {
+angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirNotifier, dirIdentity, dirRequestSkill ) {
 
-    $scope.skills = dirSkills.query();
-    $scope.newSkill = new dirSkills();
+    $scope.skills = dirRequestSkill.query();
+    $scope.skillRequested = new dirRequestSkill();
     $scope.currentUser = dirIdentity.currentUser;
 
     function formattedName(x) {
@@ -17,10 +17,10 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
 
     $scope.save = function () {
        //TODO: Landry implement the send request including sending email address to the managers for approval.
-        $scope.newSkill.$save(function () {
+        $scope.skillRequested.$save(function () {
             dirNotifier.notify( 'Skill has successfully been requested.');
-            $scope.skills = dirSkills.query();
-            $scope.newSkill = new dirSkills();
+            $scope.skills = dirRequestSkill.query();
+            $scope.skillRequested = new dirRequestSkill();
         }, function () {
             dirNotifier.error( 'There was an error, try again later.' );
         });

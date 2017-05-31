@@ -14,7 +14,8 @@ module.exports = function () {
     },
     values: [{
         name: String,
-        description: String
+        description: String,
+        isApproved: Boolean
       }]
   });
 

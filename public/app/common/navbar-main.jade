@@ -9,7 +9,7 @@ section.top-bar-section
     li(ng-show="identity.isAuthenticated() && ( identity.isManager() || identity.isInRole('Recruiting') )")
       a(ng-href="/skills") Skills
     li(ng-show="identity.isAuthenticated()")
-      a(ng-href="/requestskill") Request Skill
+      a(ng-href="/requestSkill") Request Skill
     li(ng-show="identity.isAuthenticated()")
       a(ng-href="/verticals") Verticals
     li(ng-show="identity.isAuthenticated() && identity.isManager()")

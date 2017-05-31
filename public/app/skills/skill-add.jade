@@ -13,7 +13,7 @@ div
     
 
     #skills.row
-      .small-3.columns(ng-repeat="skill in skills | skillSearch:search | orderBy: 'name'")
+      .small-3.columns(ng-repeat="skill in skills | skillSearch:search | filter:{ isApproved: true} | orderBy: 'name'")
         .skill.panel.radius.callout
           button.left.alert.radius.tiny.clearfix(ng-click="delete(skill)")
             i.foundicon-remove.general
