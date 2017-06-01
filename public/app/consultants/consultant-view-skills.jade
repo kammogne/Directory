@@ -1,13 +1,13 @@
 div#tab-skills.content(ng-class="{'active': tab == 'tab-skills'}" class="skills-tab")
   fieldset(ng-show="!isEditor()")
     legend Acclaimed Skills
-    ul(ng-repeat="skill in consultant.skills | orderBy:'name'")
+    ul(ng-repeat="skill in consultant.skills | filter:{ isApproved: true } | orderBy:'name'")
       li.selected-skill {{skill.name}}
   fieldset(ng-show="isEditor()")
     legend Available Skills
     div.panel.callout.radius.clearfix
       input(placeholder="Search" ng-model="search")
-    ul(ng-repeat="skill in $parent.skills | skillSearch:search | orderBy:'name'" class="")
+    ul(ng-repeat="skill in $parent.skills | skillSearch:search | filter:{ isApproved: true } | orderBy:'name'" class="")
       li(ng-class="{'selected': highlight(skill._id)}" ng-click="updateSkill(skill, $event)" )
         i.general.foundicon-checkmark()
         label(for="{{skill.name}}") {{skill.name}}
