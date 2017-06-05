@@ -4,7 +4,7 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     $scope.skillRequested = new dirRequestSkill();
     $scope.currentUser = dirIdentity.currentUser;
     $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
-    $scope.skillRequested.consultant = $scope.consultant;
+    $scope.skillRequested.consultant = $scope.consultant
 
         function formattedName(x) {
         return x.id + ' ' + x.name;
