@@ -4,8 +4,9 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     $scope.skillRequested = new dirRequestSkill();
     $scope.currentUser = dirIdentity.currentUser;
     $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
+    $scope.skillRequested.consultant = $scope.consultant;
 
-    function formattedName(x) {
+        function formattedName(x) {
         return x.id + ' ' + x.name;
     };
     $http.get('/api/skillLevels')
@@ -18,10 +19,11 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
 
     $scope.save = function () {
         $scope.skillRequested.$save(function () {
-            dirNotifier.notify( 'Request for skill was successfully.');
+            dirNotifier.notify( 'skill has successfully been requested.');
             addSkillToConsultant();
             $scope.skills = dirRequestSkill.query();
             $scope.skillRequested = new dirRequestSkill();
+            $scope.skillLevel = '0 None';
         }, function () {
             dirNotifier.error( 'There was an error, try again later.' );
         });
