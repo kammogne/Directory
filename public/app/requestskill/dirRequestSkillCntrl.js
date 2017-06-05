@@ -17,9 +17,8 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     });
 
     $scope.save = function () {
-       //TODO: Landry implement the send request including sending email address to the managers for approval.
         $scope.skillRequested.$save(function () {
-            dirNotifier.notify( 'Skill has successfully been requested.');
+            dirNotifier.notify( 'Request for skill was successfully.');
             addSkillToConsultant();
             $scope.skills = dirRequestSkill.query();
             $scope.skillRequested = new dirRequestSkill();
@@ -30,14 +29,14 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
 
     var addSkillToConsultant = function(){
         var canAdd = $scope.skillRequested.isSkillApplyToRequester,
-            skill = $scope.skillRequested.name;
+            skill = $scope.skillRequested;
         ;
 
 
        $scope.consultant.skills.some( function(element){
-            if(element._id === skill_id){
+            if(element.name === skill.name){
                 canAdd = false;
-                console.log("Skill" + skill.name + " exists: ");
+                console.log("Skill " + skill.name + " exists: ");
                 return true;
             }
         });
