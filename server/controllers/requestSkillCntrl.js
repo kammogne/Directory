@@ -80,7 +80,7 @@ exports.post = function(req, res){
 
                     var mailBody =  generateMailBody(
                         userFullName,
-                        req.body.consultant.email,
+                        req.body.consultant.manager.emailNickname + '@improving.com',
                         fullUrl,
                         null
                     );
