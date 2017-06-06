@@ -26,7 +26,7 @@ exports.post = function(req, res){
             resource: 'https://graph.microsoft.com/',
             client_id: '15e94743-f2e0-4dcd-9695-4901a0175fc6',
             client_secret: '459rqch7iCCkaaO2gF7jbRb',
-            username: req.body.consultant.email,
+            username: req.body.currentUser.email,
             password: 'K@lamar2016'
         }
     ),
@@ -75,14 +75,14 @@ exports.post = function(req, res){
                         res.send( 500 );
                     }
 
-                    var userFullName = req.body.consultant.firstName + ' ' + req.body.consultant.lastName;
+                    var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
                     var fullUrl = req.protocol + '://' + req.headers.host + '/requestSkill';
 
                     var mailBody =  generateMailBody(
                         userFullName,
                         //TODO: Landry For tests
                         //req.body.consultant.manager.emailNickname + '@improving.com',
-                        req.body.consultant.email,
+                        req.body.currentUser.email,
                         fullUrl,
                         null
                     );

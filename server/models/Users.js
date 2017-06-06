@@ -21,7 +21,26 @@ module.exports = function () {
       index: { unique: true }
     },
     adId: String,
-    roles: [ String ]
+    roles: [ String ],
+      manager: {
+          name: String,
+          emailNickname: {
+              type: String,
+              lowercase: true,
+              trim: true,
+              index: true
+          },
+          adId: {
+              type: String,
+              index: { unique: true }
+          },
+          email: {
+              type: String,
+              lowercase: true,
+              trim: true,
+              index: { unique: true }
+          }
+      }
   });
 
   userSchema.methods = {
@@ -31,6 +50,7 @@ module.exports = function () {
       this.lastName = profile.familyName;
       this.adId = profile.id;
       this.roles = [];
+      this.manager = {};
       return this;
     }
   };

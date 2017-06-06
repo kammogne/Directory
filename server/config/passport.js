@@ -33,6 +33,14 @@ module.exports = function ( config ) {
         });
 
       }).then(function () {
+          return graph.getManagerForUserByAdId( config, user.adId ).then(function ( manager ) {
+              user.manager.name = manager.displayName;
+              user.manager.emailNickname = manager.mailNickname;
+              user.manager.email = manager.mail;
+              user.manager.adId = manager.objectId;
+              return user.manager;
+          });
+      }).then(function () {
 
         // Retrieve the Graph User to get emailNickname
         // No, you can't just split email on @, check

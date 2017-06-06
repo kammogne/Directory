@@ -4,11 +4,12 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     $scope.skillRequested = new dirRequestSkill();
     $scope.currentUser = dirIdentity.currentUser;
     $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
-    $scope.skillRequested.consultant = $scope.consultant
+    $scope.skillRequested.currentUser = $scope.currentUser;
 
-        function formattedName(x) {
+    function formattedName(x) {
         return x.id + ' ' + x.name;
     };
+
     $http.get('/api/skillLevels')
         .success(function (data) {
             $scope.skillLevels = data.map(formattedName);
