@@ -1,6 +1,6 @@
-angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirNotifier, dirIdentity, dirRequestSkill, dirConsultants ) {
+angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $http, dirNotifier, dirIdentity, dirSkills, dirRequestSkill, dirConsultants ) {
 
-    $scope.skills = dirRequestSkill.query();
+    $scope.skills = dirSkills.query();
     $scope.skillRequested = new dirRequestSkill();
     $scope.currentUser = dirIdentity.currentUser;
     $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
@@ -21,7 +21,7 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
         $scope.skillRequested.$save(function () {
             dirNotifier.notify( 'skill has successfully been requested.');
             addSkillToConsultant();
-            $scope.skills = dirRequestSkill.query();
+            $scope.skills = dirSkills.query();
             $scope.skillRequested = new dirRequestSkill();
             $scope.skillLevel = '0 None';
         }, function () {
