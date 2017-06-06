@@ -32,7 +32,11 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     var addSkillToConsultant = function(){
         var canAdd = $scope.skillRequested.isSkillApplyToRequester,
             skill = $scope.skillRequested;
-        ;
+
+        if (skill !== '0 None'){
+            skill.level = $scope.skillLevel;
+        };
+
 
 
        $scope.consultant.skills.some( function(element){

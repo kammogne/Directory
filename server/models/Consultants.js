@@ -62,7 +62,7 @@ module.exports = function () {
     publicDisclosure: {
       socialMedia: { type: Boolean, default: false }
     },
-    skills: [{ _id: ObjectId, name: String, description: String }],
+    skills: [{ _id: ObjectId, name: String, description: String, level: String }],
     verticals: [{ _id: ObjectId, name: String, description: String }],
     careerValuationTools: [
         {
