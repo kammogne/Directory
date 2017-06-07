@@ -19,6 +19,10 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     });
 
     $scope.save = function () {
+        if ($scope.skillRequested !== '0 None'){
+            $scope.skillRequested.level = $scope.skillLevel;
+        };
+
         $scope.skillRequested.$save(function () {
             dirNotifier.notify( 'skill has successfully been requested.');
             addSkillToConsultant();
@@ -34,13 +38,7 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
         var canAdd = $scope.skillRequested.isSkillApplyToRequester,
             skill = $scope.skillRequested;
 
-        if (skill !== '0 None'){
-            skill.level = $scope.skillLevel;
-        };
-
-
-
-       $scope.consultant.skills.some( function(element){
+        $scope.consultant.skills.some( function(element){
             if(element.name === skill.name){
                 canAdd = false;
                 console.log("Skill " + skill.name + " exists: ");

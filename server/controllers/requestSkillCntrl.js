@@ -69,14 +69,19 @@ exports.post = function(req, res){
 
                 skills.values.push(skillToSave);
 
-                skills.save(function ( err, savedSkill ) {
+                skills.save(function ( err ) {
                     if ( err ){
-                        winston.log('error', 'error saving skill ' + savedSkill.name);
+                        winston.log('error', 'error saving skill ' + skillToSave.name);
                         res.send( 500 );
                     }
 
                     var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
                     var fullUrl = req.protocol + '://' + req.headers.host + '/requestSkill';
+                    var skillWithLevel =  req.body.name;
+
+                    if (skillWithLevel !== null) {
+                        skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
+                    }
 
                     var mailBody =  generateMailBody(
                         userFullName,
@@ -84,6 +89,7 @@ exports.post = function(req, res){
                         //req.body.consultant.manager.emailNickname + '@improving.com',
                         req.body.currentUser.email,
                         fullUrl,
+                        skillWithLevel,
                         null
                     );
 
@@ -110,12 +116,13 @@ exports.post = function(req, res){
 
     // The contents of the outbound email message that will be sent to the user
     const emailContent = `<html><head> <meta http-equiv='Content-Type' content='text/html; charset=us-ascii'> <title></title> </head>
-        <body style='font-family:calibri'> <p>{{name}} requested for a new skill to be added!</p> <p>Please follow the link below to approve it.</p> 
+        <body style='font-family:calibri'> <p>{{requesterName}} requested for this skill to be added: {{skill}}.</p> <p>Please follow the link below to approve it.</p> 
         <p><a href='{{sharingLink}}'> Approve skill </a></p></body> </html>`;
 
-    function getEmailContent(name, sharingLink) {
-        let bodyContent = emailContent.replace('{{name}}', name);
+    function getEmailContent(requesterName, sharingLink, skill) {
+        let bodyContent = emailContent.replace('{{requesterName}}', requesterName);
         bodyContent = bodyContent.replace('{{sharingLink}}', sharingLink);
+        bodyContent = bodyContent.replace('{{skill}}', skill);
         return bodyContent;
     }
 
@@ -141,8 +148,8 @@ exports.post = function(req, res){
         return emailAsPayload;
     }
 
-    function generateMailBody(name, recipient, sharingLink) {
-        return wrapEmail(getEmailContent(name, sharingLink), recipient);
+    function generateMailBody(requesterName, recipient, sharingLink, skill) {
+        return wrapEmail(getEmailContent(requesterName, sharingLink, skill), recipient);
     }
 
     function sendEmail(accessToken, message, callback) {
