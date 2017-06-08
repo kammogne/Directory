@@ -1,24 +1,26 @@
-angular.module( 'app' ).controller( 'dirApproveSkillCntrl', function ( $scope, $http, $routeParams, dirNotifier, dirIdentity, dirSkills, dirApproveSkill, dirConsultants ) {
+angular.module( 'app' ).controller( 'dirApproveSkillCntrl', function ( $scope, $http, $routeParams, dirNotifier, dirIdentity, dirSkills, dirApproveSkill ) {
     $scope.skills = dirSkills.query();
-    $scope.skillToApprove = dirApproveSkill.get({ id: $routeParams.id });
+    $scope.skillToApprove = new dirApproveSkill();
     $scope.currentUser = dirIdentity.currentUser;
-    $scope.skillToApprove.currentUser = $scope.currentUser;
 
-    function formattedName(x) {
-        return x.id + ' ' + x.name;
-    };
-
-    $http.get('/api/skillLevels')
+    $http.get('/api/approveSkill/' + $routeParams.id)
         .success(function (data) {
-            $scope.skillLevels = data.map(formattedName);
-            $scope.skillLevel = $scope.skillToApprove.level;
+            $scope.skillToApprove._id = data._id;
+            $scope.skillToApprove.name = data.name;
+            $scope.skillToApprove.description = data.description;
+            $scope.skillToApprove.isApproved = data.isApproved;
         })
         .error(function () {
             $scope.skillLevels = [];
         });
 
-    function setSkillLevel () {
-        $scope.skillLevel = $scope.skillToApprove.level;
-    }
-    setSkillLevel ();
+    $scope.save = function () {
+        $scope.skillToApprove.isApproved = true;
+        $scope.skillToApprove.currentUser =  $scope.currentUser;
+        $scope.skillToApprove.$save(function () {
+            dirNotifier.notify( 'Skill has been approved successfully.');
+        }, function () {
+            dirNotifier.error( 'There was an error, try again later.' );
+        });
+    };
 });

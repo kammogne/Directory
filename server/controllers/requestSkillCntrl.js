@@ -1,12 +1,12 @@
 var winston = require('winston'),
     mongoose = require( 'mongoose' ),
-    Lookups = mongoose.model( 'Lookups' ),
+    lookups = mongoose.model( 'Lookups' ),
     request = require('superagent'),
     queryString = require('querystring'),
     https = require('https');
 
 exports.getAll = function ( req, res ) {
-    Lookups.findOne({name: 'skills'},function ( err, skills ) {
+    lookups.findOne({name: 'skills'},function ( err, skills ) {
         if(!skills || !skills.values){
             skills = { values:[]};
         }
@@ -16,95 +16,94 @@ exports.getAll = function ( req, res ) {
 
 exports.post = function(req, res){
     var skillToSave = {
-        name: req.body.name,
-        description: req.body.description,
-        isApproved: false
-    },
-    postData = queryString.stringify(
-        {
-            grant_type: 'password',
-            resource: 'https://graph.microsoft.com/',
-            client_id: '15e94743-f2e0-4dcd-9695-4901a0175fc6',
-            client_secret: '459rqch7iCCkaaO2gF7jbRb',
-            username: req.body.currentUser.email,
-            password: 'K@lamar2016'
-        }
-    ),
+            name: req.body.name,
+            description: req.body.description,
+            isApproved: false
+        },
+        postData = queryString.stringify(
+            {
+                grant_type: 'password',
+                resource: 'https://graph.microsoft.com/',
+                client_id: '15e94743-f2e0-4dcd-9695-4901a0175fc6',
+                client_secret: '459rqch7iCCkaaO2gF7jbRb',
+                username: req.body.currentUser.email,
+                password: 'K@lamar2016'
+            }
+        ),
+        postOptions = {
+            host: 'login.microsoftonline.com',
+            port: '443',
+            path: '/common/oauth2/token',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        },
+        postRequest = https.request(postOptions, function (response) {
+            var data = '';
+            response.setEncoding('utf8');
+            response.on('data', function (chunk) {
+                data += chunk;
+            });
+            response.on('end', function () {
+                var accessToken = JSON.parse(data).access_token;
 
-    postOptions = {
-        host: 'login.microsoftonline.com',
-        port: '443',
-        path: '/common/oauth2/token',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData)
-        }
-    },
-    postRequest = https.request(postOptions, function (response) {
-        var data = '';
-        response.setEncoding('utf8');
-        response.on('data', function (chunk) {
-            data += chunk;
-        });
-        response.on('end', function () {
-            var accessToken = JSON.parse(data).access_token;
+                lookups.findOne( {name: 'skills'}, function(err, skills){
+                    winston.info('info', 'Send skill request email');
 
-            Lookups.findOne( {name: 'skills'}, function(err, skills){
-                winston.info('info', 'Send skill request email');
-
-                if(!skills){
-                    skills = new Lookups();
-                    skills.name = "skills";
-                }
-
-                if(!skills.values){
-                    skills.values = [];
-                }
-
-                if ( skills.values.filter(function(s) { return s.name === req.params.id;}).length > 0 ) {
-                    res.send( 400 );
-                    return;
-                }
-
-                skills.values.push(skillToSave);
-
-                skills.save(function ( err ) {
-                    if ( err ){
-                        winston.log('error', 'error saving skill ' + skillToSave.name);
-                        res.send( 500 );
+                    if(!skills){
+                        skills = new lookups();
+                        skills.name = "skills";
                     }
 
-                    var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
-                    var fullUrl = req.protocol + '://' + req.headers.host + '/approveSkill/' + skillToSave.name;
-                    var skillWithLevel =  req.body.name;
-
-                    if (skillWithLevel !== null) {
-                        skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
+                    if(!skills.values){
+                        skills.values = [];
                     }
 
-                    var mailBody =  generateMailBody(
-                        userFullName,
-                        //TODO: Landry For tests
-                        //req.body.consultant.manager.emailNickname + '@improving.com',
-                        req.body.currentUser.email,
-                        fullUrl,
-                        skillWithLevel,
-                        null
-                    );
+                    if ( skills.values.filter(function(s) { return s.name === req.params.id;}).length > 0 ) {
+                        res.send( 400 );
+                        return;
+                    }
 
-                    sendEmail(
-                        accessToken,
-                        JSON.stringify(mailBody),
-                        function (res) {
-                            winston.log(res);
-                        });
+                    skills.values.push(skillToSave);
 
-                    res.send( req.body );
+                    skills.save(function ( err ) {
+                        if ( err ){
+                            winston.log('error', 'error saving skill ' + skillToSave.name);
+                            res.send( 500 );
+                        }
+
+                        var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
+                        var fullUrl = req.protocol + '://' + req.headers.host + '/approveSkill/' + skillToSave.name;
+                        var skillWithLevel =  req.body.name;
+
+                        if (skillWithLevel !== null) {
+                            skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
+                        }
+
+                        var mailBody =  generateMailBody(
+                            userFullName,
+                            //TODO: Landry For tests
+                            //req.body.consultant.manager.emailNickname + '@improving.com',
+                            req.body.currentUser.email,
+                            fullUrl,
+                            skillWithLevel,
+                            null
+                        );
+
+                        sendEmail(
+                            accessToken,
+                            JSON.stringify(mailBody),
+                            function (res) {
+                                winston.log(res);
+                            });
+
+                        res.send( req.body );
+                    });
                 });
             });
         });
-    });
 
     postRequest.on('error', function (e) {
         console.log('Error: ' + e.message);

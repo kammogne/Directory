@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "debug": "node %NODE_DEBUG_OPTION% server.js",
+    "debug": "node --debug server.js",
     "test": "/node_modules/karma/bin/karma start"
   },
   "author": "Tim Rayburn",

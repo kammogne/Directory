@@ -23,11 +23,9 @@ module.exports = function () {
     return { enabled: true };
   }
 
-  lookupsSchema.statics.findSkill = function ( skillName, callback ) {
-      var criteria = findCriteria();
-      criteria["values.name"] = skillName;
-      return this.find( criteria ).lean().exec( callback );
-    };
+  lookupsSchema.statics.findSkill = function ( criteria, callback ) {
+    return this.findOne({ name: criteria}, callback );
+  };
 
   mongoose.model( 'Lookups', lookupsSchema );
 
