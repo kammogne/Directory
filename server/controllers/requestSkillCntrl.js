@@ -76,7 +76,7 @@ exports.post = function(req, res){
                     }
 
                     var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
-                    var fullUrl = req.protocol + '://' + req.headers.host + '/requestSkill';
+                    var fullUrl = req.protocol + '://' + req.headers.host + '/approveSkill/' + skillToSave.name;
                     var skillWithLevel =  req.body.name;
 
                     if (skillWithLevel !== null) {

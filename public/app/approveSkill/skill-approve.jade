@@ -1,0 +1,27 @@
+div
+                        fieldset
+                            legend Approve a Skill
+                            form
+                                a(id="approve-skill")
+                                .row
+                                    p
+                                        span
+                                        .row
+                                            .small-12.medium-8.columns
+                                                label Skill Name
+                                                input(type=text, name="name", ng-model="skillToApprove.name")
+                                            .small-12.medium-4.columns
+                                                label Skill Level
+                                                select(ng-model="skillLevel", ng-options="skillLevel for skillLevel in skillLevels")
+                                .row
+
+                                    p
+                                        span
+                                        .row
+                                            .small-12.medium-8.columns
+                                                label Description
+                                                textarea(name="description", ng-model="skillToApprove.description")
+                                .row
+
+                                .row.clearfix
+                                    button.success.radius(ng-click="save()", ng-disabled="myForm.$invalid") Approve

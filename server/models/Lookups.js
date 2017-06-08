@@ -19,5 +19,16 @@ module.exports = function () {
       }]
   });
 
+  function findCriteria() {
+    return { enabled: true };
+  }
+
+  lookupsSchema.statics.findSkill = function ( skillName, callback ) {
+      var criteria = findCriteria();
+      criteria["values.name"] = skillName;
+      return this.find( criteria ).lean().exec( callback );
+    };
+
   mongoose.model( 'Lookups', lookupsSchema );
+
 };

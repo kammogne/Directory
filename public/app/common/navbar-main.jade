@@ -11,6 +11,8 @@ section.top-bar-section
     li(ng-show="identity.isAuthenticated()")
       a(ng-href="/requestSkill") Request Skill
     li(ng-show="identity.isAuthenticated()")
+      a(ng-href="/approveSkill/1") Approve Skill
+    li(ng-show="identity.isAuthenticated()")
       a(ng-href="/verticals") Verticals
     li(ng-show="identity.isAuthenticated() && identity.isManager()")
       a(ng-href="/reports") Reports

@@ -29,6 +29,9 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
             $scope.skills = dirSkills.query();
             $scope.skillRequested = new dirRequestSkill();
             $scope.skillLevel = '0 None';
+            $scope.currentUser = dirIdentity.currentUser;
+            $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
+            $scope.skillRequested.currentUser = $scope.currentUser;
         }, function () {
             dirNotifier.error( 'There was an error, try again later.' );
         });
