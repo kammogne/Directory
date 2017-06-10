@@ -27,7 +27,8 @@ exports.post = function(req, res){
     var skillToSave = {
             name: req.body.name,
             description: req.body.description,
-            isApproved: false
+            isApproved: true,
+            _id: req.body._id
         },
         postData = queryString.stringify(
             {
@@ -69,43 +70,49 @@ exports.post = function(req, res){
                     if(!skills.values){
                         skills.values = [];
                     }
-                    //TODO: Landry, Update the Filter to return the skill. Or just loop through to find the skill to be updated
+
                     if ( skills.values.filter(function(s) { return s._id === req.body._id;}).length > 0 ) {
-                        skills.update(function ( s, err ) {
-                            if ( err ){
-                                winston.log('error', 'error saving skill ' + req.body.name);
-                                res.send( 500 );
-                            }
-
-                            var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
-                            var fullUrl = req.protocol + '://' + req.headers.host + '/consultants/' + req.body.currentUser.emailNickname;
-                            var skillWithLevel =  req.body.name;
-
-                            if (skillWithLevel !== null) {
-                                skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
-                            }
-
-                            var mailBody =  generateMailBody(
-                                userFullName,
-                                req.body.currentUser.email,
-                                fullUrl,
-                                skillWithLevel,
-                                null
-                            );
-
-                            sendEmail(
-                                accessToken,
-                                JSON.stringify(mailBody),
-                                function (res) {
-                                    winston.log(res);
-                                });
-
-                            res.send( req.body );
-                        });
+                        if ( err ){
+                            winston.log('error', 'error saving skill ' + req.body.name);
+                            res.send( 500 );
+                        }
                     }
+
+                    skills.values.push(skillToSave);
+
+                    skills.save(function ( err ) {
+                        winston.info('Enter saving');
+                        if ( err ){
+                            winston.log('error', 'error saving skill ' + err);
+                            res.send( 500 );
+                        }
+                    var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
+                    var fullUrl = req.protocol + '://' + req.headers.host + '/consultants/' + req.body.currentUser.emailNickname;
+                    var skillWithLevel =  req.body.name;
+
+                    // if (skillWithLevel !== null) {
+                    //     skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
+                    // }
+
+                    var mailBody =  generateMailBody(
+                       userFullName,
+                       req.body.currentUser.email,
+                       fullUrl,
+                       skillWithLevel,
+                       null
+                    );
+
+                    sendEmail(accessToken,
+                        JSON.stringify(mailBody),
+                        function (res) {
+                            winston.log(res);
+                        });
+
+                    res.send( req.body );
                 });
             });
         });
+    });
 
     postRequest.on('error', function (e) {
         console.log('Error: ' + e.message);
@@ -128,6 +135,7 @@ exports.post = function(req, res){
     }
 
     function wrapEmail(content, recipient) {
+        winston.info('Enter wrap email');
         const emailAsPayload = {
             Message: {
                 Subject: 'Your Skill Was Approved',
@@ -150,10 +158,12 @@ exports.post = function(req, res){
     }
 
     function generateMailBody(requesterName, recipient, sharingLink, skill) {
+        winston.info('Enter Generate email');
         return wrapEmail(getEmailContent(requesterName, sharingLink, skill), recipient);
     }
 
     function sendEmail(accessToken, message, callback) {
+        winston.info('Enter send email');
         request
             .post('https://graph.microsoft.com/v1.0/me/sendMail')
             .send(message)
