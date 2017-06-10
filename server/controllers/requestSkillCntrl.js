@@ -68,11 +68,18 @@ exports.post = function(req, res){
 
                     skills.values.push(skillToSave);
 
-                    skills.save(function ( err ) {
+                    skills.save(function ( err, savedSkills ) {
                         if ( err ){
-                            winston.log('error', 'error saving skill ' + skillToSave.name);
+                            winston.log('error', 'error saving skill ' + savedSkills.name);
                             res.send( 500 );
                         }
+                        let savedSkill = null;
+                        savedSkills.values.filter(function(skill) {
+                            if ( skill.name === req.params.id) {
+                                savedSkill = skill;
+                                return skill;
+                            }
+                        });
 
                         var userFullName = req.body.currentUser.firstName + ' ' + req.body.currentUser.lastName;
                         var fullUrl = req.protocol + '://' + req.headers.host + '/approveSkill/' + skillToSave.name;
@@ -82,7 +89,7 @@ exports.post = function(req, res){
                             skillWithLevel = req.body.name + '. Level : ' +  req.body.level;
                         }
 
-                        var mailBody =  generateMailBody(
+                        let mailBody =  generateMailBody(
                             userFullName,
                             //TODO: Landry For tests
                             //req.body.consultant.manager.emailNickname + '@improving.com',
@@ -99,7 +106,7 @@ exports.post = function(req, res){
                                 winston.log(res);
                             });
 
-                        res.send( req.body );
+                        res.send( savedSkill );
                     });
                 });
             });

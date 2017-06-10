@@ -5,6 +5,7 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
     $scope.currentUser = dirIdentity.currentUser;
     $scope.consultant = dirConsultants.get({ id: $scope.currentUser.emailNickname });
     $scope.skillRequested.currentUser = $scope.currentUser;
+    $scope.isSkillApplyToRequester = false;
 
     function formattedName(x) {
         return x.id + ' ' + x.name;
@@ -23,9 +24,9 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
             $scope.skillRequested.level = $scope.skillLevel;
         };
 
-        $scope.skillRequested.$save(function () {
+        $scope.skillRequested.$save(function (savedSkill) {
             dirNotifier.notify( 'skill has successfully been requested.');
-            addSkillToConsultant();
+            addSkillToConsultant(savedSkill);
             $scope.skills = dirSkills.query();
             $scope.skillRequested = new dirRequestSkill();
             $scope.skillLevel = '0 None';
@@ -37,12 +38,12 @@ angular.module( 'app' ).controller( 'dirRequestSkillCntrl', function ( $scope, $
         });
     };
 
-    var addSkillToConsultant = function(){
-        var canAdd = $scope.skillRequested.isSkillApplyToRequester,
-            skill = $scope.skillRequested;
+    var addSkillToConsultant = function(savedSkill){
+        var canAdd = $scope.isSkillApplyToRequester,
+            skill = savedSkill;
 
         $scope.consultant.skills.some( function(element){
-            if(element.name === skill.name){
+            if(element._id === skill._id){
                 canAdd = false;
                 console.log("Skill " + skill.name + " exists: ");
                 return true;
