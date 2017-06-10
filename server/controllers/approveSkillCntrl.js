@@ -124,7 +124,7 @@ exports.post = function(req, res){
 
     // The contents of the outbound email message that will be sent to the user
     const emailContent = `<html><head> <meta http-equiv='Content-Type' content='text/html; charset=us-ascii'> <title></title> </head>
-        <body style='font-family:calibri'> <p>{{requesterName}} approve this : {{skill}} you requested to be added and it is ready to use.</p> <p>Please follow the link below to add it to your profile.</p> 
+        <body style='font-family:calibri'> <p>{{requesterName}} approve this skill : {{skill}}.</p> <p>Please follow the link below to see it to your profile.</p> 
         <p><a href='{{sharingLink}}'> Go to your profile </a></p></body> </html>`;
 
     function getEmailContent(requesterName, sharingLink, skill) {
